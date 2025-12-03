@@ -228,8 +228,6 @@ class Game: # Запуск, обновление, создание игры (о�
         self.font = pygame.font.SysFont(None, 36)
         self.small_font = pygame.font.SysFont(None, 24)
 
-
-
-
-
-
+        # Загрузка уровней
+        self.levels = levels
+        self.load_level(self.current_level)

@@ -137,7 +137,7 @@ class Platform: # Платформы по которым будет передв
         self.original_y = y
         self.color = self.get_color()
 
-def get_color(self): # Типы платформ
+    def get_color(self): # Типы платформ
         if self.type == "normal":
             return (100, 180, 100)
         elif self.type == "moving":
@@ -147,6 +147,18 @@ def get_color(self): # Типы платформ
         elif self.type == "bouncy":
             return (220, 100, 220)
         return (150, 150, 150)
+
+    def update(self):
+        if self.type == "moving" and self.move_range > 0:
+            self.x += 2 * self.move_direction
+            if abs(self.x - self.original_x) >= self.move_range:
+                self.move_direction *= -1
+
+    def draw(self, screen, camera_x, camera_y):
+        rect = pygame.Rect(self.x - camera_x, self.y - camera_y,
+                           self.width, self.height)
+        pygame.draw.rect(screen, self.color, rect)
+        pygame.draw.rect(screen, (50, 50, 50), rect, 2)
 
 class Enemy: # Враги, которые мешают прохождению уровней
     def __init__(self, x, y, patrol_range=0):
@@ -178,5 +190,6 @@ class Game: # Запуск, обновление, создание игры (о�
         self.paused = False
         self.font = pygame.font.SysFont(None, 36)
         self.small_font = pygame.font.SysFont(None, 24)
+
 
 

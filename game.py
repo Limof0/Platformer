@@ -205,6 +205,19 @@ class Goal: # Зона финиша, уровень пройден
         rect = pygame.Rect(self.x - camera_x, self.y - camera_y,
                            self.width, self.height)
 
+        # Анимация мерцания
+        alpha = int(128 + 127 * abs(pygame.math.Vector2(0, 1).rotate(self.animation * 50).y))
+        color = (255, 215, 0) if alpha > 180 else (255, 255, 200)
+
+        pygame.draw.rect(screen, color, rect)
+        pygame.draw.rect(screen, (200, 160, 0), rect, 4)
+
+        # Надпись FINISH
+        font = pygame.font.SysFont(None, 24)
+        text = font.render("FINISH", True, (50, 50, 50))
+        text_rect = text.get_rect(center=(rect.x + self.width // 2, rect.y + self.height // 2))
+        screen.blit(text, text_rect)
+
 class Game: # Запуск, обновление, создание игры (основы)
     def __init__(self, screen):
         self.screen = screen
@@ -214,6 +227,7 @@ class Game: # Запуск, обновление, создание игры (о�
         self.paused = False
         self.font = pygame.font.SysFont(None, 36)
         self.small_font = pygame.font.SysFont(None, 24)
+
 
 
 

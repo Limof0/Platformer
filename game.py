@@ -172,6 +172,23 @@ class Enemy: # Враги, которые мешают прохождению у
         self.speed = 2
         self.color = (255, 50, 50)
 
+    def update(self): # Движение
+        if self.patrol_range > 0:
+            self.x += self.speed * self.move_direction
+            if abs(self.x - self.original_x) >= self.patrol_range:
+                self.move_direction *= -1
+
+    def draw(self, screen, camera_x, camera_y): # Рисование врага
+        rect = pygame.Rect(self.x - camera_x, self.y - camera_y,
+                           self.width, self.height)
+        pygame.draw.rect(screen, self.color, rect)
+        # Глаза врага
+        eye_offset = 10 if self.move_direction == 1 else -10
+        pygame.draw.circle(screen, (255, 255, 255),
+                           (rect.x + 20 + eye_offset, rect.y + 15), 8)
+        pygame.draw.circle(screen, (0, 0, 0),
+                           (rect.x + 20 + eye_offset, rect.y + 15), 4)
+
 class Goal: # Зона финиша, уровень пройден
     def __init__(self, x, y):
         self.x = x
@@ -190,6 +207,7 @@ class Game: # Запуск, обновление, создание игры (о�
         self.paused = False
         self.font = pygame.font.SysFont(None, 36)
         self.small_font = pygame.font.SysFont(None, 24)
+
 
 
 

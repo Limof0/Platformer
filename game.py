@@ -231,3 +231,32 @@ class Game: # Запуск, обновление, создание игры (о�
         # Загрузка уровней
         self.levels = levels
         self.load_level(self.current_level)
+
+    def load_level(self, level_index):
+        level_data = self.levels[level_index]
+
+        # Создание игрока
+        self.player = Player(level_data["player_start"][0], level_data["player_start"][1])
+
+        # Создание платформ
+        self.platforms = []
+        for platform_data in level_data["platforms"]:
+            platform = Platform(*platform_data)
+            self.platforms.append(platform)
+
+        # Создание врагов
+        self.enemies = []
+        for enemy_data in level_data.get("enemies", []):
+            enemy = Enemy(*enemy_data)
+            self.enemies.append(enemy)
+
+        # Создание цели
+        self.goal = Goal(*level_data["goal"])
+
+        # Камера
+        self.camera_x = 0
+        self.camera_y = 0
+
+        # Сброс состояния
+        self.level_complete = False
+

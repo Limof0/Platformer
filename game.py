@@ -300,3 +300,29 @@ class Game: # Запуск, обновление, создание игры (о�
         self.camera_x = max(0, min(self.camera_x, 2000 - self.width))
         self.camera_y = max(0, min(self.camera_y, 2000 - self.height))
 
+        def draw(self):
+        # Фон
+        self.screen.fill((135, 206, 235))  # Небо
+
+        # Рисование облаков
+        for i in range(5):
+            x = (i * 400 - self.camera_x // 2) % 2000
+            y = 100 + (i * 50) % 150
+            pygame.draw.ellipse(self.screen, (255, 255, 255),
+                                (x - self.camera_x // 4, y - self.camera_y // 4, 150, 60))
+
+        # Рисование объектов
+        for platform in self.platforms:
+            platform.draw(self.screen, self.camera_x, self.camera_y)
+
+        for enemy in self.enemies:
+            enemy.draw(self.screen, self.camera_x, self.camera_y)
+
+        self.goal.draw(self.screen, self.camera_x, self.camera_y)
+        self.player.draw(self.screen, self.camera_x, self.camera_y)
+
+        # Интерфейс
+        level_text = self.font.render(f"Уровень: {self.current_level + 1}/10", True, (50, 50, 50))
+        self.screen.blit(level_text, (self.width - 200, 20))
+
+

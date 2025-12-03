@@ -124,7 +124,7 @@ def draw(self, screen, camera_x, camera_y):
             pygame.draw.rect(screen, (255, 50, 50), life_rect)
             pygame.draw.rect(screen, (200, 0, 0), life_rect, 3)
 
-class Platform: #Платформы по которым будет передвигаться персонаж
+class Platform: # Платформы по которым будет передвигаться персонаж
     def __init__(self, x, y, width, height, type="normal", move_range=0):
         self.x = x
         self.y = y
@@ -137,7 +137,18 @@ class Platform: #Платформы по которым будет передв�
         self.original_y = y
         self.color = self.get_color()
 
-class Enemy: #Враги, которые мешают прохождению уровней
+def get_color(self): # Типы платформ
+        if self.type == "normal":
+            return (100, 180, 100)
+        elif self.type == "moving":
+            return (100, 150, 200)
+        elif self.type == "breakable":
+            return (180, 120, 80)
+        elif self.type == "bouncy":
+            return (220, 100, 220)
+        return (150, 150, 150)
+
+class Enemy: # Враги, которые мешают прохождению уровней
     def __init__(self, x, y, patrol_range=0):
         self.x = x
         self.y = y
@@ -149,7 +160,7 @@ class Enemy: #Враги, которые мешают прохождению у�
         self.speed = 2
         self.color = (255, 50, 50)
 
-class Goal: #Зона финиша, уровень пройден
+class Goal: # Зона финиша, уровень пройден
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -158,7 +169,7 @@ class Goal: #Зона финиша, уровень пройден
         self.color = (255, 215, 0)
         self.animation = 0
 
-class Game: #Запуск, обновление, создание игры (основы)
+class Game: # Запуск, обновление, создание игры (основы)
     def __init__(self, screen):
         self.screen = screen
         self.width, self.height = screen.get_size()
@@ -167,4 +178,5 @@ class Game: #Запуск, обновление, создание игры (ос
         self.paused = False
         self.font = pygame.font.SysFont(None, 36)
         self.small_font = pygame.font.SysFont(None, 24)
+
 

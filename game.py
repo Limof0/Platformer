@@ -259,4 +259,43 @@ class Game: # Запуск, обновление, создание игры (о�
 
         # Сброс состояния
         self.level_complete = False
+        
+    def update(self):
+        if self.level_complete or self.paused:
+            return
 
+        # Обновление игрока
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            self.player.move(-1)
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            self.player.move(1)
+        if keys[pygame.K_SPACE] or keys[pygame.K_UP] or keys[pygame.K_w]:
+            self.player.jump()
+
+        # Обновление объектов
+        self.player.update(self.platforms, self.enemies)
+
+        for platform in self.platforms:
+            platform.update()
+
+        for enemy in self.enemies:
+            enemy.update()
+
+        self.goal.update()
+
+        # Проверка достижения цели
+        if self.player.check_collision(self.goal):
+            self.level_complete = True
+
+        # Проверка жизней
+        if self.player.lives <= 0:
+            self.reset_level()
+
+        # Обновление камеры
+        self.camera_x = self.player.x - self.width // 2
+        self.camera_y = self.player.y - self.height // 2
+
+        # Ограничение камеры
+        self.camera_x = max(0, min(self.camera_x, 2000 - self.width))
+        self.camera_y = max(0, min(self.camera_y, 2000 - self.height))

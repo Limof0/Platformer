@@ -102,6 +102,28 @@ class Player: #Игрок, главный персонаж
         self.vel_x = 0
         self.vel_y = 0
 
+def draw(self, screen, camera_x, camera_y):
+        # Рисование игрока
+        player_rect = pygame.Rect(self.x - camera_x, self.y - camera_y,
+                                  self.width, self.height)
+
+        # Мерцание при неуязвимости
+        if self.invincible <= 0 or self.invincible % 8 < 4:
+            pygame.draw.rect(screen, self.color, player_rect)
+
+            # Глаза
+            eye_x = player_rect.x + (30 if self.direction == 1 else 10)
+            pygame.draw.circle(screen, (255, 255, 255),
+                               (eye_x, player_rect.y + 15), 8)
+            pygame.draw.circle(screen, (0, 0, 0),
+                               (eye_x, player_rect.y + 15), 4)
+
+        # Рисование жизней
+        for i in range(self.lives):
+            life_rect = pygame.Rect(20 + i * 40, 20, 30, 30)
+            pygame.draw.rect(screen, (255, 50, 50), life_rect)
+            pygame.draw.rect(screen, (200, 0, 0), life_rect, 3)
+
 class Platform: #Платформы по которым будет передвигаться персонаж
     def __init__(self, x, y, width, height, type="normal", move_range=0):
         self.x = x
@@ -145,3 +167,4 @@ class Game: #Запуск, обновление, создание игры (ос
         self.paused = False
         self.font = pygame.font.SysFont(None, 36)
         self.small_font = pygame.font.SysFont(None, 24)
+

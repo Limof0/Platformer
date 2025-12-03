@@ -102,7 +102,7 @@ class Player: #Игрок, главный персонаж
         self.vel_x = 0
         self.vel_y = 0
 
-def draw(self, screen, camera_x, camera_y):
+    def draw(self, screen, camera_x, camera_y):
         # Рисование игрока
         player_rect = pygame.Rect(self.x - camera_x, self.y - camera_y,
                                   self.width, self.height)
@@ -299,3 +299,4 @@ class Game: # Запуск, обновление, создание игры (о�
         # Ограничение камеры
         self.camera_x = max(0, min(self.camera_x, 2000 - self.width))
         self.camera_y = max(0, min(self.camera_y, 2000 - self.height))
+

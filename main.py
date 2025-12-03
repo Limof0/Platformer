@@ -7,8 +7,8 @@ def main():
     pygame.init()
 
     # Настройки окна
-    SCREEN_WIDTH = 1500
-    SCREEN_HEIGHT = 1000
+    SCREEN_WIDTH = 1100
+    SCREEN_HEIGHT = 800
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("Платформер 'Прыгун'")
 
@@ -50,4 +50,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()

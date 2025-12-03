@@ -54,3 +54,49 @@ class Player:
                 elif self.vel_y < 0:
                     self.y = platform.y + platform.height
                     self.vel_y = 0
+                    
+    # Обработка столкновений с врагами
+        if self.invincible <= 0:
+            for enemy in enemies:
+                if self.check_collision(enemy):
+                    self.lives -= 1
+                    self.invincible = 120  # 2 секунда неуязвимости
+                    # Отскок от врага
+                    self.vel_y = -5
+                    if self.x < enemy.x:
+                        self.vel_x = -3
+                    else:
+                        self.vel_x = 3
+                    break
+
+        if self.invincible > 0:
+            self.invincible -= 1
+
+        # Проверка выхода за границы
+        if self.y > 800:
+            self.lives -= 1
+            self.reset_position()
+
+        # Трение
+        self.vel_x *= 0.9
+
+    def jump(self):
+        if self.on_ground:
+            self.vel_y = -self.jump_power
+
+    def move(self, direction):
+        self.vel_x += direction * self.speed
+        if direction != 0:
+            self.direction = direction
+
+    def check_collision(self, obj):
+        return (self.x < obj.x + obj.width and
+                self.x + self.width > obj.x and
+                self.y < obj.y + obj.height and
+                self.y + self.height > obj.y)
+
+    def reset_position(self):
+        self.x = 100
+        self.y = 500
+        self.vel_x = 0
+        self.vel_y = 0

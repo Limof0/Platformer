@@ -198,6 +198,13 @@ class Goal: # Зона финиша, уровень пройден
         self.color = (255, 215, 0)
         self.animation = 0
 
+    def update(self):
+        self.animation += 0.1
+
+    def draw(self, screen, camera_x, camera_y):
+        rect = pygame.Rect(self.x - camera_x, self.y - camera_y,
+                           self.width, self.height)
+
 class Game: # Запуск, обновление, создание игры (основы)
     def __init__(self, screen):
         self.screen = screen
@@ -207,6 +214,7 @@ class Game: # Запуск, обновление, создание игры (о�
         self.paused = False
         self.font = pygame.font.SysFont(None, 36)
         self.small_font = pygame.font.SysFont(None, 24)
+
 
 
 

@@ -1,8 +1,9 @@
 import pygame
 import random
+from levels import levels
 
 
-class Player:
+class Player: #Игрок, главный персонаж
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -100,3 +101,47 @@ class Player:
         self.y = 500
         self.vel_x = 0
         self.vel_y = 0
+
+class Platform: #Платформы по которым будет передвигаться персонаж
+    def __init__(self, x, y, width, height, type="normal", move_range=0):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.type = type  # normal, moving, breakable, bouncy
+        self.move_range = move_range
+        self.move_direction = 1
+        self.original_x = x
+        self.original_y = y
+        self.color = self.get_color()
+
+class Enemy: #Враги, которые мешают прохождению уровней
+    def __init__(self, x, y, patrol_range=0):
+        self.x = x
+        self.y = y
+        self.width = 30
+        self.height = 30
+        self.patrol_range = patrol_range
+        self.move_direction = 1
+        self.original_x = x
+        self.speed = 2
+        self.color = (255, 50, 50)
+
+class Goal: #Зона финиша, уровень пройден
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.width = 60
+        self.height = 80
+        self.color = (255, 215, 0)
+        self.animation = 0
+
+class Game: #Запуск, обновление, создание игры (основы)
+    def __init__(self, screen):
+        self.screen = screen
+        self.width, self.height = screen.get_size()
+        self.current_level = 0
+        self.level_complete = False
+        self.paused = False
+        self.font = pygame.font.SysFont(None, 36)
+        self.small_font = pygame.font.SysFont(None, 24)

@@ -344,4 +344,26 @@ class Game: # Запуск, обновление, создание игры (о�
                              (self.width // 2 - next_text.get_width() // 2,
                               self.height // 2 + 10))
 
+        # Пауза
+        if self.paused:
+            overlay = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 150))
+            self.screen.blit(overlay, (0, 0))
+
+            pause_text = self.font.render("ПАУЗА", True, (255, 255, 255))
+            self.screen.blit(pause_text,
+                             (self.width // 2 - pause_text.get_width() // 2,
+                              self.height // 2 - 30))
+
+            info_text = self.small_font.render("Управление: ← → или A D - движение, SPACE - прыжок", True,
+                                               (200, 200, 200))
+            info_text2 = self.small_font.render("R - перезапуск уровня, P - пауза, ESC - выход", True, (200, 200, 200))
+            self.screen.blit(info_text,
+                             (self.width // 2 - info_text.get_width() // 2,
+                              self.height // 2 + 30))
+            self.screen.blit(info_text2,
+                             (self.width // 2 - info_text2.get_width() // 2,
+                              self.height // 2 + 60))
+
+
 

@@ -17,8 +17,8 @@ class Player: #Игрок, главный персонаж
         self.color = (0, 120, 255)
         self.lives = 3
         self.invincible = 0
-
         self.direction = 1 # 1 - вправо, -1 - влево
+        self.bounce_multiplier = 1.0  # Множитель отскока
 
     
     def update(self, platforms, enemies):
@@ -372,6 +372,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

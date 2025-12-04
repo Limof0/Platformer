@@ -165,11 +165,45 @@ class Platform: # Платформы по которым будет передв
             if abs(self.x - self.original_x) >= self.move_range:
                 self.move_direction *= -1
 
+        # Анимация для прыгучей платформы
+        if self.type == "bouncy":
+            self.bounce_animation = (self.bounce_animation + 0.3) % (3.14159 * 2)
+
     def draw(self, screen, camera_x, camera_y):
         rect = pygame.Rect(self.x - camera_x, self.y - camera_y,
                            self.width, self.height)
-        pygame.draw.rect(screen, self.color, rect)
-        pygame.draw.rect(screen, (50, 50, 50), rect, 2)
+
+        # Специальное отображение для прыгучей платформы
+        if self.type == "bouncy":
+            # Анимация сжатия/растяжения
+            bounce_offset = int(2 * abs(pygame.math.Vector2(0, 1).rotate(self.bounce_animation * 50).y))
+            bounce_rect = pygame.Rect(
+                self.x - camera_x,
+                self.y - camera_y + bounce_offset,
+                self.width,
+                self.height - bounce_offset * 2
+            )
+
+            pygame.draw.rect(screen, self.color, bounce_rect)
+            pygame.draw.rect(screen, (180, 80, 200), bounce_rect, 3)
+
+
+             # Рисуем пружины по бокам
+            for i in range(3):
+                spring_x1 = bounce_rect.x + 10
+                spring_x2 = bounce_rect.x + bounce_rect.width - 10
+                spring_y = bounce_rect.y + bounce_rect.height - 10 - i * 10
+                pygame.draw.line(screen, (100, 100, 100),
+                                (spring_x1, spring_y),
+                                (spring_x1, spring_y + 10), 3)
+                pygame.draw.line(screen, (100, 100, 100),
+                                (spring_x2, spring_y),
+                                (spring_x2, spring_y + 10), 3)
+
+
+        else:
+            pygame.draw.rect(screen, self.color, rect)
+            pygame.draw.rect(screen, (50, 50, 50), rect, 2)
 
 class Enemy: # Враги, которые мешают прохождению уровней
     def __init__(self, x, y, patrol_range=0):
@@ -383,6 +417,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

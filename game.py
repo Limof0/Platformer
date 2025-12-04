@@ -44,6 +44,7 @@ class Player: #Игрок, главный персонаж
         # Движение по Y
         self.y += self.vel_y
         self.on_ground = False
+        self.bounce_multiplier = 1.0  # Сброс множителя отскока
 
         # Проверка коллизий по Y
         for platform in platforms:
@@ -372,6 +373,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

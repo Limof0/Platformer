@@ -51,11 +51,6 @@ class Player: #Игрок, главный персонаж
             if self.check_collision(platform):
                 if self.vel_y > 0:
                     self.y = platform.y - self.height
-                    self.vel_y = 0
-                    self.on_ground = True
-                elif self.vel_y < 0:
-                    self.y = platform.y + platform.height
-                    self.vel_y = 0
                     
     # Обработка столкновений с врагами
         if self.invincible <= 0:
@@ -373,6 +368,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

@@ -365,5 +365,14 @@ class Game: # Запуск, обновление, создание игры (о�
                              (self.width // 2 - info_text2.get_width() // 2,
                               self.height // 2 + 60))
 
+    def next_level(self): #Следующий уровень
+        if self.current_level < 9 and self.level_complete:
+            self.current_level += 1
+            self.load_level(self.current_level)
+
+    def reset_level(self): #Рестарт уровня
+        self.load_level(self.current_level)
+
+
 
 

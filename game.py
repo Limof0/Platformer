@@ -325,4 +325,23 @@ class Game: # Запуск, обновление, создание игры (о�
         level_text = self.font.render(f"Уровень: {self.current_level + 1}/10", True, (50, 50, 50))
         self.screen.blit(level_text, (self.width - 200, 20))
 
+        if self.level_complete:
+            overlay = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 150))
+            self.screen.blit(overlay, (0, 0))
+
+            if self.current_level < 9:
+                complete_text = self.font.render("Уровень пройден!", True, (255, 255, 255))
+                next_text = self.small_font.render("Нажмите N для следующего уровня", True, (200, 200, 255))
+            else:
+                complete_text = self.font.render("Игра пройдена!", True, (255, 255, 255))
+                next_text = self.small_font.render("Поздравляем!", True, (200, 200, 255))
+
+            self.screen.blit(complete_text,
+                             (self.width // 2 - complete_text.get_width() // 2,
+                              self.height // 2 - 50))
+            self.screen.blit(next_text,
+                             (self.width // 2 - next_text.get_width() // 2,
+                              self.height // 2 + 10))
+
 

@@ -146,6 +146,7 @@ class Platform: # Платформы по которым будет передв
         self.original_x = x
         self.original_y = y
         self.color = self.get_color()
+        self.bounce_animation = 0  # Для анимации прыгучей платформы
 
     def get_color(self): # Типы платформ
         if self.type == "normal":
@@ -382,6 +383,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

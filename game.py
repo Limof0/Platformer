@@ -110,6 +110,7 @@ class Player: #Игрок, главный персонаж
         self.y = 500
         self.vel_x = 0
         self.vel_y = 0
+        self.bounce_multiplier = 1.0 
 
     def draw(self, screen, camera_x, camera_y):
         # Рисование игрока
@@ -381,6 +382,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

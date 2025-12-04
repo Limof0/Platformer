@@ -55,8 +55,8 @@ class Player: #Игрок, главный персонаж
                      # Обработка прыгучих платформ
                     if platform.type == "bouncy":
                         # Увеличиваем отскок в 1.5 раза
-                        self.vel_y = -self.jump_power * 1.5
-                        self.bounce_multiplier = 1.5
+                        self.vel_y = -self.jump_power * 1.3
+                        self.bounce_multiplier = 1.3
                     else:
                         self.vel_y = 0
                     
@@ -417,6 +417,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

@@ -92,7 +92,7 @@ class Player: #Игрок, главный персонаж
 
     def jump(self):
         if self.on_ground:
-            self.vel_y = -self.jump_power
+            self.vel_y = -self.jump_power * self.bounce_multiplier
 
     def move(self, direction):
         self.vel_x += direction * self.speed
@@ -381,6 +381,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

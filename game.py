@@ -283,6 +283,41 @@ class Coin:
         if not self.collected:
             self.animation += self.spin_speed
 
+    def draw(self, screen, camera_x, camera_y):
+        if not self.collected:
+            # Позиция с учетом камеры
+            screen_x = self.x - camera_x
+            screen_y = self.y - camera_y
+
+            # Анимация подпрыгивания
+            bounce = abs(pygame.math.Vector2(0, 1).rotate(self.animation * 50).y) * 3
+
+            # Центр монеты
+            center_x = screen_x + self.width // 2
+            center_y = screen_y + self.height // 2 - bounce
+
+            # Рисуем монету
+            pygame.draw.circle(screen, (255, 215, 0),
+                               (int(center_x), int(center_y)),
+                               self.width // 2)
+
+            # Внутренний круг для эффекта объема
+            pygame.draw.circle(screen, (255, 235, 100),
+                               (int(center_x), int(center_y)),
+                               self.width // 3)
+
+            # Буква "G"
+            font = pygame.font.SysFont(None, 20)
+            text = font.render("G", True, (100, 80, 0))
+            text_rect = text.get_rect(center=(int(center_x), int(center_y)))
+            screen.blit(text, text_rect)
+
+            # Свечение монеты
+            glow_radius = int(15 + 5 * abs(pygame.math.Vector2(0, 1).rotate(self.animation * 30).y))
+            pygame.draw.circle(screen, (255, 255, 200),
+                               (int(center_x), int(center_y)),
+                               glow_radius, 1)
+
 class Game: # Запуск, обновление, создание игры (основы)
     def __init__(self, screen):
         self.screen = screen
@@ -437,6 +472,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

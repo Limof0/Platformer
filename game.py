@@ -269,6 +269,16 @@ class Goal: # Зона финиша, уровень пройден
         text_rect = text.get_rect(center=(rect.x + self.width // 2, rect.y + self.height // 2))
         screen.blit(text, text_rect)
 
+class Coin:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.width = 30
+        self.height = 30
+        self.collected = False
+        self.animation = 0
+        self.spin_speed = 0.1
+
 class Game: # Запуск, обновление, создание игры (основы)
     def __init__(self, screen):
         self.screen = screen
@@ -423,6 +433,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

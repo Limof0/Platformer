@@ -279,6 +279,10 @@ class Coin:
         self.animation = 0
         self.spin_speed = 0.1
 
+    def update(self):
+        if not self.collected:
+            self.animation += self.spin_speed
+
 class Game: # Запуск, обновление, создание игры (основы)
     def __init__(self, screen):
         self.screen = screen
@@ -433,6 +437,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

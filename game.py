@@ -84,8 +84,14 @@ class Player: #Игрок, главный персонаж
 
         # Проверка выхода за границы
         if self.y > 800:
-            self.lives -= 1
             self.reset_position()
+            if self.lives == 1:
+                self.lives += 2
+            if self.lives == 2:
+                self.lives += 1
+            if self.lives == 3:
+                self.lives += 0
+
 
         # Трение
         self.vel_x *= 0.9
@@ -417,6 +423,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

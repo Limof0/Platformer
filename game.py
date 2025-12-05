@@ -322,6 +322,11 @@ class Coin:
         if self.collected:
             return False
 
+        return (player.x < self.x + self.width and
+                player.x + player.width > self.x and
+                self.y < player.y + player.height and
+                self.y + self.height > player.y)
+
 class Game: # Запуск, обновление, создание игры (основы)
     def __init__(self, screen):
         self.screen = screen
@@ -476,6 +481,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

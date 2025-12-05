@@ -318,6 +318,10 @@ class Coin:
                                (int(center_x), int(center_y)),
                                glow_radius, 1)
 
+    def check_collision(self, player):
+        if self.collected:
+            return False
+
 class Game: # Запуск, обновление, создание игры (основы)
     def __init__(self, screen):
         self.screen = screen
@@ -472,6 +476,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

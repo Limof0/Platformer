@@ -461,6 +461,15 @@ class Game: # Запуск, обновление, создание игры (о�
             coin_status = self.small_font.render("Монета собрана!", True, (50, 180, 50))
         self.screen.blit(coin_status, (self.width - 200, 100))
 
+        # Анимация сбора монеты
+        if self.coin.collected and not self.coin_sound_played:
+            # Визуальный эффект при сборе монеты
+            effect_radius = 50
+            pygame.draw.circle(self.screen, (255, 255, 200, 150),
+                               (self.width // 2, self.height // 2),
+                               effect_radius, 3)
+            self.coin_sound_played = True
+
         if self.level_complete:
             overlay = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
             overlay.fill((0, 0, 0, 150))
@@ -508,6 +517,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

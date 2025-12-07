@@ -509,15 +509,20 @@ class Game: # Запуск, обновление, создание игры (о�
                              (self.width // 2 - pause_text.get_width() // 2,
                               self.height // 2 - 30))
 
-            info_text = self.small_font.render("Управление: ← → или A D - движение, SPACE - прыжок", True,
-                                               (200, 200, 200))
-            info_text2 = self.small_font.render("R - перезапуск уровня, P - пауза, ESC - выход", True, (200, 200, 200))
+            info_text = self.small_font.render("Соберите все 10 монет!", True, (255, 255, 150))
+            info_text2 = self.small_font.render("Управление: ← → или A D - движение, SPACE - прыжок", True,
+                                                (200, 200, 200))
+            info_text3 = self.small_font.render("R - перезапуск уровня, P - пауза, ESC - выход", True, (200, 200, 200))
+            
             self.screen.blit(info_text,
                              (self.width // 2 - info_text.get_width() // 2,
-                              self.height // 2 + 30))
+                              self.height // 2 + 20))
             self.screen.blit(info_text2,
                              (self.width // 2 - info_text2.get_width() // 2,
                               self.height // 2 + 60))
+            self.screen.blit(info_text3,
+                             (self.width // 2 - info_text3.get_width() // 2,
+                              self.height // 2 + 90))
 
     def next_level(self): #Следующий уровень
         if self.current_level < 9 and self.level_complete:
@@ -526,28 +531,3 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

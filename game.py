@@ -337,6 +337,12 @@ class Game: # Запуск, обновление, создание игры (о�
         self.font = pygame.font.SysFont(None, 36)
         self.small_font = pygame.font.SysFont(None, 24)
 
+        # Статистика
+        self.total_coins = 10  # Всего монет в игре
+        self.coins_collected = 0  # Собранные монеты
+        self.level_coins_collected = 0  # Монеты на текущем уровне
+        self.coin_sound_played = False  # Флаг для звука
+
         # Загрузка уровней
         self.levels = levels
         self.load_level(self.current_level)
@@ -481,6 +487,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

@@ -400,6 +400,13 @@ class Game: # Запуск, обновление, создание игры (о�
             enemy.update()
 
         self.goal.update()
+        self.coin.update()
+
+        # Проверка сбора монеты
+        if not self.coin.collected and self.coin.check_collision(self.player):
+            self.coin.collected = True
+            self.coins_collected += 1
+            self.level_coins_collected = 1
 
         # Проверка достижения цели
         if self.player.check_collision(self.goal):
@@ -489,6 +496,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

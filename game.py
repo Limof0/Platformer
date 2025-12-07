@@ -470,24 +470,33 @@ class Game: # Запуск, обновление, создание игры (о�
                                effect_radius, 3)
             self.coin_sound_played = True
 
+        # Сообщение о завершении уровня
         if self.level_complete:
             overlay = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
             overlay.fill((0, 0, 0, 150))
             self.screen.blit(overlay, (0, 0))
 
+            complete_text = self.font.render("Уровень пройден!", True, (255, 255, 255))
+
+            # Информация о монетах
+            coins_info = f"Монеты: {self.coins_collected}/{self.total_coins}"
+            coins_text = self.small_font.render(coins_info, True, (255, 255, 150))
+
             if self.current_level < 9:
-                complete_text = self.font.render("Уровень пройден!", True, (255, 255, 255))
                 next_text = self.small_font.render("Нажмите N для следующего уровня", True, (200, 200, 255))
             else:
-                complete_text = self.font.render("Игра пройдена!", True, (255, 255, 255))
-                next_text = self.small_font.render("Поздравляем!", True, (200, 200, 255))
+                next_text = self.small_font.render("Игра пройдена! Поздравляем!", True, (200, 255, 200))
+
 
             self.screen.blit(complete_text,
                              (self.width // 2 - complete_text.get_width() // 2,
-                              self.height // 2 - 50))
+                              self.height // 2 - 80))
+            self.screen.blit(coins_text,
+                             (self.width // 2 - coins_text.get_width() // 2,
+                              self.height // 2 - 30))
             self.screen.blit(next_text,
                              (self.width // 2 - next_text.get_width() // 2,
-                              self.height // 2 + 10))
+                              self.height // 2 + 20))
 
         # Пауза
         if self.paused:
@@ -517,6 +526,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

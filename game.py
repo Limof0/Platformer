@@ -374,6 +374,8 @@ class Game: # Запуск, обновление, создание игры (о�
 
         # Сброс состояния
         self.level_complete = False
+        self.level_coins_collected = 0
+        self.coin_sound_played = False
         
     def update(self):
         if self.level_complete or self.paused:
@@ -487,6 +489,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

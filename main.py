@@ -40,6 +40,36 @@ def main():
 
         # Отрисовка
         game.draw()
+
+         # Показ итоговой статистики при завершении игры
+        if game.current_level == 9 and game.level_complete:
+            overlay = pygame.Surface((screen.get_width(), screen.get_height()), pygame.SRCALPHA)
+            overlay.fill((0, 0, 0, 200))
+            screen.blit(overlay, (0, 0))
+
+            title_font = pygame.font.SysFont(None, 48)
+            stats_font = pygame.font.SysFont(None, 36)
+
+            # Заголовок
+            title = title_font.render("ИГРА ПРОЙДЕНА!", True, (255, 255, 100))
+            screen.blit(title, (screen.get_width() // 2 - title.get_width() // 2, 100))
+
+            # Статистика по монетам
+            coins_collected = game.coins_collected
+            total_coins = game.total_coins
+
+            if coins_collected == total_coins:
+                coins_text = stats_font.render(f"Вы собрали ВСЕ {total_coins} монет! Отлично!", True, (255, 215, 0))
+            else:
+                coins_text = stats_font.render(f"Вы собрали {coins_collected} из {total_coins} монет", True,
+                                               (255, 255, 200))
+
+            screen.blit(coins_text, (screen.get_width() // 2 - coins_text.get_width() // 2, 200))
+
+            # Инструкция
+            instruction = stats_font.render("Нажмите ESC для выхода", True, (200, 200, 255))
+            screen.blit(instruction, (screen.get_width() // 2 - instruction.get_width() // 2, 300))
+        
         pygame.display.flip()
 
         # Ограничение FPS
@@ -52,3 +82,4 @@ def main():
 if __name__ == "__main__":
 
     main()
+

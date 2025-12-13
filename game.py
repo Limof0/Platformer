@@ -1,6 +1,15 @@
 import pygame
 import random
 from levels import levels
+import os
+
+
+class Background:
+    def __init__(self, screen_width, screen_height, level=0):
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+        self.level = level
+        self.load_background_image()
 
 
 class Player: #Игрок, главный персонаж
@@ -531,3 +540,4 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+

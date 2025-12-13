@@ -40,9 +40,38 @@ class Background:
             self.has_image = False
             self.create_gradient_background()
 
-     def change_level(self, level): #Меняем фон при смне уровня
+    def change_level(self, level): #Меняем фон при смне уровня
         self.level = level
         self.load_background_image()
+
+
+    def create_gradient_background(self):
+        """Создает градиентный фон если изображение не загрузилось"""
+        self.big_surface = pygame.Surface((self.screen_width * 2, self.screen_height * 2))
+
+        # Создаем градиент от голубого (небо) к светло-голубому
+        for y in range(self.screen_height * 2):
+            # Цвет меняется от темно-голубого вверху к светло-голубому внизу
+            color_value = 135 + int(70 * (y / (self.screen_height * 2)))
+            color = (color_value, 206, 235)
+
+            # Рисуем горизонтальную линию градиента
+            pygame.draw.line(self.big_surface, color, (0, y), (self.screen_width * 2, y))
+
+        # Добавляем простые облака
+        for i in range(20):
+            x = (i * 200) % (self.screen_width * 2)
+            y = 100 + (i * 80) % 300
+            size = 80 + (i * 13) % 40
+
+            # Рисуем облако из нескольких кругов
+            for dx, dy, r in [(0, 0, size // 2),
+                              (-size // 3, -size // 6, size // 3),
+                              (size // 3, -size // 6, size // 3),
+                              (-size // 4, size // 6, size // 4),
+                              (size // 4, size // 6, size // 4)]:
+                pygame.draw.circle(self.big_surface, (255, 255, 255, 200),
+                                   (int(x + dx), int(y + dy)), r)
 
 
 class Player: #Игрок, главный персонаж
@@ -573,6 +602,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

@@ -11,6 +11,35 @@ class Background:
         self.level = level
         self.load_background_image()
 
+ def load_background_image(self):
+        # Определяем какое изображение использовать в зависимости от уровня
+        bg_files = ["background1.jpg", "background2.jpg", "background3.jpg", "background4.jpg"]
+        bg_index = min(self.level // 3, 3)  # Каждые 3 уровня меняем фон
+        bg_file = bg_files[bg_index]
+
+        try:
+            bg_path = os.path.join("assets", bg_file)
+            self.image = pygame.image.load(bg_path)
+            self.image = pygame.transform.scale(self.image, (self.screen_width, self.screen_height))
+
+            # Создаем большую поверхность для скроллинга
+            self.bg_width = self.image.get_width()
+            self.bg_height = self.image.get_height()
+            self.big_surface = pygame.Surface((self.bg_width * 2, self.bg_height * 2))
+
+            # Заполняем
+            for x in range(0, self.bg_width * 2, self.bg_width):
+                for y in range(0, self.bg_height * 2, self.bg_height):
+                    self.big_surface.blit(self.image, (x, y))
+
+            self.has_image = True
+            print(f"Фоновое изображение {bg_file} загружено успешно")
+
+        except Exception as e:
+            print(f"Не удалось загрузить фоновое изображение: {e}")
+            self.has_image = False
+            self.create_gradient_background()
+
 
 class Player: #Игрок, главный персонаж
     def __init__(self, x, y):
@@ -540,4 +569,5 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 

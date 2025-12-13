@@ -73,6 +73,23 @@ class Background:
                 pygame.draw.circle(self.big_surface, (255, 255, 255, 200),
                                    (int(x + dx), int(y + dy)), r)
 
+    def draw(self, screen, camera_x, camera_y):
+        # Параллакс-эффект: фон движется медленнее чем камера
+        parallax_x = camera_x // 3
+        parallax_y = camera_y // 3
+
+        # Ограничиваем смещение фона
+        max_x = self.big_surface.get_width() - self.screen_width
+        max_y = self.big_surface.get_height() - self.screen_height
+
+        parallax_x = max(0, min(parallax_x, max_x))
+        parallax_y = max(0, min(parallax_y, max_y))
+
+        # Отрисовываем часть фона
+        screen.blit(self.big_surface, (0, 0),
+                    (parallax_x, parallax_y,
+                     self.screen_width, self.screen_height))
+
 
 class Player: #Игрок, главный персонаж
     def __init__(self, x, y):
@@ -602,6 +619,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

@@ -11,7 +11,7 @@ class Background:
         self.level = level
         self.load_background_image()
 
- def load_background_image(self):
+    def load_background_image(self):
         # Определяем какое изображение использовать в зависимости от уровня
         bg_files = ["background1.jpg", "background2.jpg", "background3.jpg", "background4.jpg"]
         bg_index = min(self.level // 3, 3)  # Каждые 3 уровня меняем фон
@@ -39,6 +39,10 @@ class Background:
             print(f"Не удалось загрузить фоновое изображение: {e}")
             self.has_image = False
             self.create_gradient_background()
+
+     def change_level(self, level): #Меняем фон при смне уровня
+        self.level = level
+        self.load_background_image()
 
 
 class Player: #Игрок, главный персонаж
@@ -569,5 +573,6 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 

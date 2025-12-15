@@ -239,8 +239,53 @@ class Platform: # Платформы по которым будет передв
         self.move_direction = 1
         self.original_x = x
         self.original_y = y
-        self.color = self.get_color()
         self.bounce_animation = 0  # Для анимации прыгучей платформы
+        self.color = self.get_color()
+        # Загрузка изображений
+        self.images = {}
+        self.load_images()
+
+        def load_images(self): #Загружаем изображение для платформ
+        try:
+            # Пробуем загрузить разные изображения для разных типов
+            image_files = {
+                "normal15030": "platform15030.png",
+                "normal90990": "platform90990.png",
+                "normal10030": "platform10030.png",
+                "normal99090": "platform99090.png",
+                "normal6030": "platform6030.png",
+                "normal30030": "platform30030.png",
+                "normal3030": "platform3030.png",
+                "normal30402": "platform30402.png",
+                "moving15030": "platform_moving15030.png",
+                "bouncy": "platform_bouncy.png",
+                "breakable": "platform_breakable.png"
+            }
+
+            for platform_type, filename in image_files.items():
+                filepath = os.path.join("assets", filename)
+                if os.path.exists(filepath):
+                    # Загружаем и масштабируем изображение
+                    img = pygame.image.load(filepath)
+                    # Конвертируем для прозрачности
+                    if img.get_alpha() is None:
+                        img = img.convert()
+                    else:
+                        img = img.convert_alpha()
+
+                    # Масштабируем под размер платформы
+                    self.images[platform_type] = pygame.transform.scale(
+                        img, (self.width, self.height)
+                    )
+                else:
+                    # Если файла нет, используем цвет
+                    self.images[platform_type] = None
+                    print(f"Изображение {filename} не найдено, использую цвет")
+
+        except Exception as e:
+            print(f"Ошибка загрузки изображений платформ: {e}")
+            # В случае ошибки используем цвета
+            self.images = {}
 
     def get_color(self): # Типы платформ
         if self.type == "normal":
@@ -264,40 +309,48 @@ class Platform: # Платформы по которым будет передв
             self.bounce_animation = (self.bounce_animation + 0.3) % (3.14159 * 2)
 
     def draw(self, screen, camera_x, camera_y):
-        rect = pygame.Rect(self.x - camera_x, self.y - camera_y,
-                           self.width, self.height)
+        # Позиция на экране с учетом камеры
+        screen_x = self.x - camera_x
+        screen_y = self.y - camera_y
 
-        # Специальное отображение для прыгучей платформы
-        if self.type == "bouncy":
-            # Анимация сжатия/растяжения
-            bounce_offset = int(2 * abs(pygame.math.Vector2(0, 1).rotate(self.bounce_animation * 50).y))
-            bounce_rect = pygame.Rect(
-                self.x - camera_x,
-                self.y - camera_y + bounce_offset,
-                self.width,
-                self.height - bounce_offset * 2
-            )
+        # Проверяем, видна ли платформа на экране
+        if (screen_x + self.width < 0 or screen_x > screen.get_width() or
+                screen_y + self.height < 0 or screen_y > screen.get_height()):
+            return  # Платформа не видна, не рисуем
 
-            pygame.draw.rect(screen, self.color, bounce_rect)
-            pygame.draw.rect(screen, (180, 80, 200), bounce_rect, 3)
+        # Пробуем нарисовать изображение
+        if self.type in self.images and self.images[self.type] is not None:
+            # Рисуем изображение платформы
+            screen.blit(self.images[self.type], (screen_x, screen_y))
 
+            # Для движущихся платформ добавляем стрелки
+            if self.type == "moving":
+                self.draw_movement_arrows(screen, screen_x, screen_y)
 
-             # Рисуем пружины по бокам
-            for i in range(3):
-                spring_x1 = bounce_rect.x + 10
-                spring_x2 = bounce_rect.x + bounce_rect.width - 10
-                spring_y = bounce_rect.y + bounce_rect.height - 10 - i * 10
-                pygame.draw.line(screen, (100, 100, 100),
-                                (spring_x1, spring_y),
-                                (spring_x1, spring_y + 10), 3)
-                pygame.draw.line(screen, (100, 100, 100),
-                                (spring_x2, spring_y),
-                                (spring_x2, spring_y + 10), 3)
-
+            # Для прыгучих платформ добавляем анимацию
+            elif self.type == "bouncy":
+                self.draw_bounce_effect(screen, screen_x, screen_y)
 
         else:
+            # Рисуем цветной прямоугольник (запасной вариант)
+            rect = pygame.Rect(screen_x, screen_y, self.width, self.height)
             pygame.draw.rect(screen, self.color, rect)
             pygame.draw.rect(screen, (50, 50, 50), rect, 2)
+
+            # Добавляем текст для типа платформы
+            font = pygame.font.SysFont(None, 20)
+            if self.type == "moving":
+                text = font.render("←→", True, (255, 255, 255))
+            elif self.type == "bouncy":
+                text = font.render("↑", True, (255, 255, 255))
+            elif self.type == "breakable":
+                text = font.render("X", True, (255, 255, 255))
+            else:
+                text = font.render("_", True, (255, 255, 255))
+
+            text_rect = text.get_rect(center=(screen_x + self.width // 2,
+                                              screen_y + self.height // 2))
+            screen.blit(text, text_rect)
 
 class Enemy: # Враги, которые мешают прохождению уровней
     def __init__(self, x, y, patrol_range=0):
@@ -619,6 +672,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

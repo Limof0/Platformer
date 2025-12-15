@@ -352,6 +352,35 @@ class Platform: # Платформы по которым будет передв
                                               screen_y + self.height // 2))
             screen.blit(text, text_rect)
 
+    def draw_movement_arrows(self, screen, screen_x, screen_y):
+        """Рисует стрелки на движущихся платформах"""
+        arrow_color = (255, 255, 255)
+
+        # Стрелка направления движения
+        arrow_size = min(self.width, self.height) // 4
+
+        if self.move_direction > 0:
+            # Стрелка вправо
+            points = [
+                (screen_x + self.width - arrow_size, screen_y + self.height // 2),
+                (screen_x + self.width - arrow_size * 2, screen_y + self.height // 2 - arrow_size // 2),
+                (screen_x + self.width - arrow_size * 2, screen_y + self.height // 2 + arrow_size // 2)
+            ]
+        else:
+            # Стрелка влево
+            points = [
+                (screen_x + arrow_size, screen_y + self.height // 2),
+                (screen_x + arrow_size * 2, screen_y + self.height // 2 - arrow_size // 2),
+                (screen_x + arrow_size * 2, screen_y + self.height // 2 + arrow_size // 2)
+            ]
+
+        pygame.draw.polygon(screen, arrow_color, points)
+
+    def draw_bounce_effect(self, screen, screen_x, screen_y):
+        """Рисует эффект прыгучести"""
+        # Анимация сжатия
+        bounce_offset = int(3 * abs(pygame.math.Vector2(0, 1).rotate(self.bounce_animation * 50)
+
 class Enemy: # Враги, которые мешают прохождению уровней
     def __init__(self, x, y, patrol_range=0):
         self.x = x
@@ -672,6 +701,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 

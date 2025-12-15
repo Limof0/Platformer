@@ -488,7 +488,7 @@ class Coin:
                                (int(center_x), int(center_y)),
                                glow_radius, 1)
 
-    def check_collision(self, player):
+    def check_collision(self, player): #Проверка коллизии
         if self.collected:
             return False
 
@@ -537,6 +537,9 @@ class Game: # Запуск, обновление, создание игры (о�
 
         # Создание цели
         self.goal = Goal(*level_data["goal"])
+
+         # Создание монеты
+        self.coin = Coin(*level_data["coin"])
 
         # Камера
         self.camera_x = 0
@@ -595,15 +598,8 @@ class Game: # Запуск, обновление, создание игры (о�
         self.camera_y = max(-100, min(self.camera_y, 3000 - self.height))
 
         def draw(self):
-        # Фон
-        self.screen.fill((135, 206, 235))  # Небо
-
-        # Рисование облаков
-        for i in range(5):
-            x = (i * 400 - self.camera_x // 2) % 2000
-            y = 100 + (i * 50) % 150
-            pygame.draw.ellipse(self.screen, (255, 255, 255),
-                                (x - self.camera_x // 4, y - self.camera_y // 4, 150, 60))
+        # Рисуем фон
+        self.background.draw(self.screen, self.camera_x, self.camera_y)
 
         # Рисование объектов
         for platform in self.platforms:
@@ -617,7 +613,7 @@ class Game: # Запуск, обновление, создание игры (о�
         self.player.draw(self.screen, self.camera_x, self.camera_y)
 
         # Интерфейс
-        level_text = self.font.render(f"Уровень: {self.current_level + 1}/10", True, (50, 50, 50))
+        level_text = self.font.render(f"Уровень:{self.current_level + 1}/10", True, (50, 50, 50))
         self.screen.blit(level_text, (self.width - 200, 20))
 
         # Отображение монет
@@ -639,6 +635,8 @@ class Game: # Запуск, обновление, создание игры (о�
                                (self.width // 2, self.height // 2),
                                effect_radius, 3)
             self.coin_sound_played = True
+
+
 
         # Сообщение о завершении уровня
         if self.level_complete:
@@ -701,6 +699,7 @@ class Game: # Запуск, обновление, создание игры (о�
 
     def reset_level(self): #Рестарт уровня
         self.load_level(self.current_level)
+
 
 
 
